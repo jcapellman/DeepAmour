@@ -1,0 +1,8 @@
+.vs/
+bin/
+obj/
+*.lock.json
+/Properties/PublishProfiles
+packages/
+src/Release/*
+src/*/Release/*
