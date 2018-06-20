@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace deepamour.web
+namespace deepamour.web.Controllers
 {
     public class HomeController : Controller
     {
