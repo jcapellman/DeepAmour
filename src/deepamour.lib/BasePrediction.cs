@@ -1,6 +1,5 @@
 ﻿using System.IO;
-
-using deepamour.lib.MusicPredictor.Objects;
+using System.Linq;
 
 using Microsoft.ML;
 using Microsoft.ML.Data;
@@ -18,11 +17,11 @@ namespace deepamour.lib
             _trainingFile = trainingFile;
         }
 
+        public abstract string DisplayPrediction(TK prediction);
+
         protected abstract string ModelName { get; }
-
-        protected abstract string OutputColumn { get; }
-
-        protected abstract string[] InputColumns { get; }
+        
+        protected abstract string PredictorColumn { get; }
 
         private PredictionModel<T, TK> _model;
 
@@ -33,16 +32,14 @@ namespace deepamour.lib
                 _model = await PredictionModel.ReadAsync<T, TK>(ModelName);
             }
 
+            var inputColumns = typeof(T).GetProperties().Select(a => a.Name).ToArray();
+
             var pipeline = new LearningPipeline
             {
-                new TextLoader(_trainingFile).CreateFrom<MusicData>(separator: ','),
-                new TextFeaturizer(OutputColumn, InputColumns),
-                new FastTreeBinaryClassifier
-                {
-                    NumLeaves = 5,
-                    NumTrees = 5,
-                    MinDocumentsInLeafs = 2
-                }
+                new TextLoader(_trainingFile).CreateFrom<T>(separator: ','),
+                new ColumnCopier((PredictorColumn, "Label")),
+                new ColumnConcatenator("Features", inputColumns),
+                new FastTreeRegressor()
             };
 
             _model = pipeline.Train<T, TK>();

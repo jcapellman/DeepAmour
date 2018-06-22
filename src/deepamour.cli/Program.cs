@@ -1,7 +1,7 @@
 ﻿using System;
 
-using deepamour.lib.MusicPredictor;
-using deepamour.lib.MusicPredictor.Objects;
+using deepamour.lib.NBAPredictor;
+using deepamour.lib.WarriorsPredictor.Objects;
 
 namespace deepamour.cli
 {
@@ -9,14 +9,18 @@ namespace deepamour.cli
     {
         static void Main(string[] args)
         {
-            var predictor = new MusicPrediction(args[0]);
+            var predictor = new WarriorsPrediction(args[0]);
             
-            var result = predictor.Predict(new MusicData
+            var result = predictor.Predict(new WarriorsData
             {
-                SentimentText = "Enter Sandman"
+                CurryPoints = 10,
+                DurantPoints = 20,
+                GreenPoints = 30,
+                IguodalaPoints = 22,
+                ThompsonPoints = 11
             });
             
-            Console.WriteLine($"Prediction: {result.Sentiment}");
+            Console.WriteLine(predictor.DisplayPrediction(result));
         }
     }
 }
