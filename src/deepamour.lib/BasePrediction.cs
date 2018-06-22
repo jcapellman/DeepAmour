@@ -11,6 +11,13 @@ namespace deepamour.lib
 {
     public abstract class BasePrediction<T, TK> where T : class where TK : class, new()
     {
+        private readonly string _trainingFile;
+
+        protected BasePrediction(string trainingFile)
+        {
+            _trainingFile = trainingFile;
+        }
+
         protected abstract string ModelName { get; }
 
         protected abstract string OutputColumn { get; }
@@ -28,7 +35,7 @@ namespace deepamour.lib
 
             var pipeline = new LearningPipeline
             {
-                new TextLoader(ModelName).CreateFrom<MusicData>(separator: ','),
+                new TextLoader(_trainingFile).CreateFrom<MusicData>(separator: ','),
                 new TextFeaturizer(OutputColumn, InputColumns),
                 new FastTreeBinaryClassifier
                 {

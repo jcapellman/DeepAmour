@@ -9,5 +9,9 @@ namespace deepamour.lib.MusicPredictor
         protected override string OutputColumn => "Features";
 
         protected override string[] InputColumns => new[] { "SentimentText" };
+
+        public MusicPrediction(string trainingFile) : base(trainingFile)
+        {
+        }
     }
 }
