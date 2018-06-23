@@ -25,7 +25,9 @@ namespace deepamour.lib.Base
         {
             if (File.Exists(ModelName))
             {
-                _model = await PredictionModel.ReadAsync<T, TK>(ModelName);
+                Model = await PredictionModel.ReadAsync<T, TK>(ModelName);
+
+                return;
             }
 
             var inputColumns = typeof(T).GetFields().Where(a => a.FieldType != typeof(float)).Select(a => a.Name).ToArray();
@@ -37,9 +39,9 @@ namespace deepamour.lib.Base
                 new FastTreeRegressor()
             };
 
-            _model = pipeline.Train<T, TK>();
+            Model = pipeline.Train<T, TK>();
 
-            await _model.WriteAsync(ModelName);
+            await Model.WriteAsync(ModelName);
         }
     }
 }

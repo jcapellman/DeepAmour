@@ -17,18 +17,18 @@ namespace deepamour.lib.Base
         
         protected abstract string PredictorColumn { get; }
         
-        protected PredictionModel<T, TK> _model;
+        protected PredictionModel<T, TK> Model;
 
         protected abstract void LoadDataAsync();
 
         public TK Predict(T data)
         {
-            if (_model == null)
+            if (Model == null)
             {
                 LoadDataAsync();
             }
 
-            return _model.Predict(data);
+            return Model.Predict(data);
         }
     }
 }

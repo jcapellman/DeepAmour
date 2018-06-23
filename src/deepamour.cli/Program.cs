@@ -17,7 +17,8 @@ namespace deepamour.cli
                 DurantPoints = 20,
                 GreenPoints = 30,
                 IguodalaPoints = 22,
-                ThompsonPoints = 11
+                ThompsonPoints = 11,
+                WarriorsWin = 0
             });
             
             Console.WriteLine(predictor.DisplayPrediction(result));
