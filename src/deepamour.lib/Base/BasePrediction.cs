@@ -1,4 +1,8 @@
-﻿using Microsoft.ML;
+﻿using System.IO;
+
+using Microsoft.ML;
+
+using Newtonsoft.Json;
 
 namespace deepamour.lib.Base
 {
@@ -21,12 +25,14 @@ namespace deepamour.lib.Base
 
         protected abstract void LoadDataAsync();
 
-        public TK Predict(T data)
+        public TK Predict(string predictorDataFileName)
         {
             if (Model == null)
             {
                 LoadDataAsync();
             }
+
+            var data = JsonConvert.DeserializeObject<T>(File.ReadAllText(predictorDataFileName));
 
             return Model.Predict(data);
         }
