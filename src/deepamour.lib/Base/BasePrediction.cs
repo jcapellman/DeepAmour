@@ -1,6 +1,4 @@
-﻿using deepamour.lib.WarriorsPredictor.Objects;
-
-using Microsoft.ML;
+﻿using Microsoft.ML;
 
 namespace deepamour.lib.Base
 {
