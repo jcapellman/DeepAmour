@@ -4,7 +4,10 @@ namespace deepamour.lib.WarriorsPredictor.Objects
 {
     public class WarriorsDataPrediction
     {
+        [ColumnName("Label")]
+        public int WarriorsWin;
+
         [ColumnName("Score")]
-        public bool Win;
+        public float[] Score;
     }
 }

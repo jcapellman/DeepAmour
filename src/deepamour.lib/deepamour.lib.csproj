@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MusicPredictor\**" />
+    <EmbeddedResource Remove="MusicPredictor\**" />
+    <None Remove="MusicPredictor\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.ML" Version="0.2.0" />
   </ItemGroup>
 

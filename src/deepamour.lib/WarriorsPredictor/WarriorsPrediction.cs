@@ -1,14 +1,15 @@
-﻿using deepamour.lib.WarriorsPredictor.Objects;
+﻿using deepamour.lib.Base;
+using deepamour.lib.WarriorsPredictor.Objects;
 
-namespace deepamour.lib.NBAPredictor
+namespace deepamour.lib.WarriorsPredictor
 {
-    public class WarriorsPrediction : BasePrediction<WarriorsData, WarriorsDataPrediction>
+    public class WarriorsPrediction : BaseFastTreePredictor<WarriorsData, WarriorsDataPrediction>
     {
         protected override string ModelName => "warriors.mdl";
 
         protected override string PredictorColumn => "WarriorsWin";
 
-        public override string DisplayPrediction(WarriorsDataPrediction prediction) => $"Warriors Win: {prediction}";
+        public override string DisplayPrediction(WarriorsDataPrediction prediction) => $"Warriors Win: {(prediction.WarriorsWin == 1 ? "Yes" : "No")}";
 
         public WarriorsPrediction(string modelData) : base(modelData) { }
     }

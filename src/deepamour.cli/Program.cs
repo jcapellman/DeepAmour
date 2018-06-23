@@ -1,6 +1,6 @@
 ﻿using System;
 
-using deepamour.lib.NBAPredictor;
+using deepamour.lib.WarriorsPredictor;
 using deepamour.lib.WarriorsPredictor.Objects;
 
 namespace deepamour.cli
