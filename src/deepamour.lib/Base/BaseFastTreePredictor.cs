@@ -3,6 +3,7 @@ using System.Linq;
 
 using Microsoft.ML;
 using Microsoft.ML.Data;
+using Microsoft.ML.Models;
 using Microsoft.ML.Trainers;
 using Microsoft.ML.Transforms;
 
@@ -42,6 +43,15 @@ namespace deepamour.lib.Base
             Model = pipeline.Train<T, TK>();
 
             await Model.WriteAsync(ModelName);
+        }
+
+        public override RegressionMetrics EvaluateModel(string testDataFilePath)
+        {
+            var evaluator = new RegressionEvaluator();
+
+            var testData = new TextLoader(testDataFilePath).CreateFrom<T>();
+
+            return evaluator.Evaluate(Model, testData);
         }
     }
 }

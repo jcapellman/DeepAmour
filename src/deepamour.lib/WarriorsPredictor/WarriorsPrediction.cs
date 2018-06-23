@@ -9,7 +9,7 @@ namespace deepamour.lib.WarriorsPredictor
 
         protected override string PredictorColumn => "WarriorsWin";
 
-        public override string DisplayPrediction(WarriorsDataPrediction prediction) => $"Warriors Win: {(prediction.WarriorsWin == 1 ? "Yes" : "No")}";
+        public override string DisplayPrediction(WarriorsDataPrediction prediction) => $"Warriors Win: {(prediction.WarriorsWin > 0 ? "Yes" : "No")}";
 
         public WarriorsPrediction(string modelData) : base(modelData) { }
     }

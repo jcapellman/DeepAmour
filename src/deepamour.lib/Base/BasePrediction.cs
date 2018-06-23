@@ -1,6 +1,7 @@
 ﻿using System.IO;
 
 using Microsoft.ML;
+using Microsoft.ML.Models;
 
 using Newtonsoft.Json;
 
@@ -36,5 +37,7 @@ namespace deepamour.lib.Base
 
             return Model.Predict(data);
         }
+
+        public abstract RegressionMetrics EvaluateModel(string testDataFilePat);
     }
 }
