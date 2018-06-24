@@ -104,17 +104,24 @@ namespace deepamour.cli
             {
                 var metrics = predictor.EvaluateModel(commandLine.PredictionDataFileName);
 
-                Console.WriteLine($"L1: {metrics.L1}");
-                Console.WriteLine($"L2: {metrics.L2}");
-                Console.WriteLine($"LossFn: {metrics.LossFn}");
+                if (metrics.IsNullOrError)
+                {
+                    Console.WriteLine("Could not run evaluation due to an error");
 
-                Console.WriteLine(System.Environment.NewLine);
+                    return;
+                }
+
+                Console.WriteLine($"L1: {metrics.Value.L1}");
+                Console.WriteLine($"L2: {metrics.Value.L2}");
+                Console.WriteLine($"LossFn: {metrics.Value.LossFn}");
+
+                Console.WriteLine(Environment.NewLine);
             }
             else
             {
                 var result = predictor.Predict(commandLine.PredictionDataFileName);
 
-                Console.WriteLine(predictor.DisplayPrediction(result));
+                Console.WriteLine(predictor.DisplayPrediction(result.Value));
             }
         }
     }

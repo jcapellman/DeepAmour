@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Linq;
 
+using deepamour.lib.Common;
+
 using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Models;
@@ -15,12 +17,11 @@ namespace deepamour.lib.Base
 
         protected override string ModelName => throw new System.NotImplementedException();
 
+        public override string PredictorName => throw new System.NotImplementedException();
+
         protected override string PredictorColumn => throw new System.NotImplementedException();
 
-        public override string DisplayPrediction(TK prediction)
-        {
-            throw new System.NotImplementedException();
-        }
+        public override string DisplayPrediction(TK prediction) => throw new System.NotImplementedException();
 
         protected override async void LoadDataAsync()
         {
@@ -45,13 +46,13 @@ namespace deepamour.lib.Base
             await Model.WriteAsync(ModelName);
         }
 
-        public override RegressionMetrics EvaluateModel(string testDataFilePath)
+        public override ReturnObj<RegressionMetrics> EvaluateModel(string testDataFilePath)
         {
             var evaluator = new RegressionEvaluator();
 
             var testData = new TextLoader(testDataFilePath).CreateFrom<T>();
 
-            return evaluator.Evaluate(Model, testData);
+            return new ReturnObj<RegressionMetrics>(evaluator.Evaluate(Model, testData));
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.IO;
 
+using deepamour.lib.Common;
+
 using Microsoft.ML;
 using Microsoft.ML.Models;
 
@@ -19,14 +21,16 @@ namespace deepamour.lib.Base
         public abstract string DisplayPrediction(TK prediction);
 
         protected abstract string ModelName { get; }
-        
+
+        public abstract string PredictorName { get; }
+
         protected abstract string PredictorColumn { get; }
         
         protected PredictionModel<T, TK> Model;
 
         protected abstract void LoadDataAsync();
 
-        public TK Predict(string predictorDataFileName)
+        public ReturnObj<TK> Predict(string predictorDataFileName)
         {
             if (Model == null)
             {
@@ -35,9 +39,9 @@ namespace deepamour.lib.Base
 
             var data = JsonConvert.DeserializeObject<T>(File.ReadAllText(predictorDataFileName));
 
-            return Model.Predict(data);
+            return new ReturnObj<TK>(Model.Predict(data));
         }
 
-        public abstract RegressionMetrics EvaluateModel(string testDataFilePat);
+        public abstract ReturnObj<RegressionMetrics> EvaluateModel(string testDataFilePat);
     }
 }
