@@ -4,12 +4,15 @@ using deepamour.lib.Base;
 using deepamour.lib.Common;
 using deepamour.lib.Predictors.WarriorsPredictor.Objects;
 
+using Microsoft.ML;
 using Microsoft.ML.Models;
 
 namespace deepamour.lib.Predictors.WarriorsPredictor
 {
     public class WarriorsPredictor : BaseFastTreePredictor
     {
+        private PredictionModel<WarriorsData, WarriorsDataPrediction> _model;
+
         protected override string ModelName => "warriors.mdl";
 
         public override string PredictorName => "warriors";
@@ -20,21 +23,40 @@ namespace deepamour.lib.Predictors.WarriorsPredictor
 
         public override async Task<ReturnObj<RegressionMetrics>> RunEvaluationAsync(string testDataFilePath)
         {
-            var model = await LoadOrGenerateModelAsync<WarriorsData, WarriorsDataPrediction>(testDataFilePath);
+            var modelLoadResult = await LoadModelAsync(testDataFilePath);
 
-            return model.IsNullOrError ? new ReturnObj<RegressionMetrics>(model.Error) : EvaluateModel(model.Value, testDataFilePath);
+            return modelLoadResult.IsNullOrError ? new ReturnObj<RegressionMetrics>(modelLoadResult.Error) : EvaluateModel(modelLoadResult.Value, testDataFilePath);
         }
 
-        public override async Task<ReturnObj<string>> RunPredictorAsync(string predictorDataFileName, string testDataFilePath = null)
+        private async Task<ReturnObj<PredictionModel<WarriorsData, WarriorsDataPrediction>>> LoadModelAsync(string testDataFilePath)
         {
+            if (_model != null)
+            {
+                return new ReturnObj<PredictionModel<WarriorsData, WarriorsDataPrediction>>(_model);
+            }
+
             var model = await LoadOrGenerateModelAsync<WarriorsData, WarriorsDataPrediction>(testDataFilePath);
 
             if (model.IsNullOrError)
             {
-                return new ReturnObj<string>(model.Error);
+                return new ReturnObj<PredictionModel<WarriorsData, WarriorsDataPrediction>>(model.Error);
             }
 
-            var prediction = Predict(model.Value, predictorDataFileName);
+            _model = model.Value;
+
+            return new ReturnObj<PredictionModel<WarriorsData, WarriorsDataPrediction>>(_model);
+        }
+
+        public override async Task<ReturnObj<string>> RunPredictorAsync(string predictorDataFileName, string testDataFilePath = null)
+        {
+            var modelLoadResult = await LoadModelAsync(testDataFilePath);
+
+            if (modelLoadResult.IsNullOrError)
+            {
+                return new ReturnObj<string>(modelLoadResult.Error);
+            }
+
+            var prediction = Predict(modelLoadResult.Value, predictorDataFileName);
 
             if (prediction.IsNullOrError)
             {
