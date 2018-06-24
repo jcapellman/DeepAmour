@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Linq;
 
 using deepamour.lib.Common;
 
@@ -31,8 +30,6 @@ namespace deepamour.lib.Base
 
                 return;
             }
-
-            var inputColumns = typeof(T).GetFields().Where(a => a.FieldType != typeof(float)).Select(a => a.Name).ToArray();
 
             var pipeline = new LearningPipeline
             {
