@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
+using deepamour.cli.Common;
 using deepamour.lib.WarriorsPredictor;
 
 using NLog;
@@ -11,44 +11,7 @@ namespace deepamour.cli
     {
         private static Logger Log => NLog.LogManager.GetCurrentClassLogger();
 
-        private CommandLineArguments _arguments;
-
-        private class CommandLineArguments
-        {
-            public string TrainingDataFileName { get; set; }
-
-            public string Predictor { get; set; }
-
-            public string PredictionDataFileName { get; set; }
-
-            public bool Evaluate { get; set; }
-        }
-
-        private CommandLineArguments ParseArguments(IReadOnlyList<string> args)
-        {
-            var commandLine = new CommandLineArguments();
-
-            for (var x = 0; x < args.Count; x += 2)
-            {
-                switch (args[x].ToLower())
-                {
-                    case "-p":
-                        commandLine.PredictionDataFileName = args[x + 1];
-                        break;
-                    case "-pr":
-                        commandLine.Predictor = args[x + 1];
-                        break;
-                    case "-d":
-                        commandLine.TrainingDataFileName = args[x + 1];
-                        break;
-                    case "-e":
-                        commandLine.Evaluate = true;
-                        break;
-                }
-            }
-
-            return commandLine;
-        }
+        private CommandLineParser.CommandLineArguments _arguments;
 
         private void DisplayArgumentsHelp()
         {
@@ -59,7 +22,7 @@ namespace deepamour.cli
             Console.WriteLine("-d <filename> (Training Data, required if model doesn't exist)");
             Console.WriteLine("-e (Evaluate the Model, Prediction Data is required)");
 
-            Console.WriteLine(System.Environment.NewLine);
+            Console.WriteLine(Environment.NewLine);
         }
 
         private WarriorsPrediction LoadPredictor(string predictor, string trainingDataFileName)
@@ -73,7 +36,7 @@ namespace deepamour.cli
             return null;
         }
 
-        private bool ValidateCommandLine(CommandLineArguments arguments)
+        private bool ValidateCommandLine(CommandLineParser.CommandLineArguments arguments)
         {
             if (string.IsNullOrEmpty(arguments.PredictionDataFileName) || string.IsNullOrEmpty(arguments.Predictor))
             {
@@ -84,31 +47,31 @@ namespace deepamour.cli
                 return false;
             }
 
-            if (arguments.Evaluate && string.IsNullOrEmpty(arguments.PredictionDataFileName))
+            if (!arguments.Evaluate || !string.IsNullOrEmpty(arguments.PredictionDataFileName))
             {
-                DisplayArgumentsHelp();
-
-                return false;
+                return true;
             }
 
-            return true;
+            DisplayArgumentsHelp();
+
+            return false;
         }
 
         public bool LoadArguments(string[] args)
         {
-            var arguments = ParseArguments(args);
+            var arguments = CommandLineParser.ParseArguments(args);
 
-            if (arguments == null)
+            if (arguments.IsNullOrError)
             {
                 return false;
             }
 
-            if (!ValidateCommandLine(arguments))
+            if (!ValidateCommandLine(arguments.Value))
             {
                 return false;
             }
 
-            _arguments = arguments;
+            _arguments = arguments.Value;
 
             return true;
         }
