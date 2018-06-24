@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 using deepamour.lib.Common;
 
@@ -37,6 +38,16 @@ namespace deepamour.lib.Base
                 LoadDataAsync();
             }
 
+            if (string.IsNullOrEmpty(predictorDataFileName))
+            {
+                return new ReturnObj<TK>(new Exception("predictorDataFileName is not set"));
+            }
+
+            if (!File.Exists(predictorDataFileName))
+            {
+                return new ReturnObj<TK>(new FileNotFoundException($"{predictorDataFileName} was not found to be used as prediction data"));
+            }
+            
             var data = JsonConvert.DeserializeObject<T>(File.ReadAllText(predictorDataFileName));
 
             return new ReturnObj<TK>(Model.Predict(data));
