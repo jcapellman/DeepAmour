@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "deepamour.cli": {
+      "commandName": "Project",
+      "commandLineArgs": "-pr warriors -pd \"test.txt\""
+    }
+  }
+}

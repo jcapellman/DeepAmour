@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 
 using deepamour.cli.Common;
-using deepamour.lib.WarriorsPredictor;
+using deepamour.lib.Base;
+using deepamour.lib.Common;
 
 using NLog;
 
@@ -25,15 +28,12 @@ namespace deepamour.cli
             Console.WriteLine(Environment.NewLine);
         }
 
-        private WarriorsPrediction LoadPredictor(string predictor, string trainingDataFileName)
+        private static BaseFastTreePredictor LoadPredictor(string predictorName)
         {
-            switch (predictor.ToLower())
-            {
-                case "warriors":
-                    return new WarriorsPrediction(trainingDataFileName);
-            }
+            var predictors = Assembly.GetAssembly(typeof(JSONHelper)).GetTypes()
+                .Where(a => !a.IsAbstract && a.BaseType == typeof(BaseFastTreePredictor)).Select(a => (BaseFastTreePredictor)Activator.CreateInstance(a)).ToList();
 
-            return null;
+            return predictors.FirstOrDefault(a => string.Equals(a.PredictorName, predictorName, StringComparison.CurrentCultureIgnoreCase));
         }
 
         private bool ValidateCommandLine(CommandLineParser.CommandLineArguments arguments)
@@ -42,7 +42,7 @@ namespace deepamour.cli
             {
                 DisplayArgumentsHelp();
 
-                Log.Error($"Prediction Data and/or Predictor command line arguments are null");
+                Log.Error("Prediction Data and/or Predictor command line arguments are null");
 
                 return false;
             }
@@ -78,7 +78,7 @@ namespace deepamour.cli
 
         public async void RunPrediction()
         {
-            var predictor = LoadPredictor(_arguments.Predictor, _arguments.TrainingDataFileName);
+            var predictor = LoadPredictor(_arguments.Predictor);
 
             if (predictor == null)
             {
@@ -89,7 +89,7 @@ namespace deepamour.cli
 
             if (_arguments.Evaluate)
             {
-                var metrics = predictor.EvaluateModel(_arguments.PredictionDataFileName);
+                var metrics = await predictor.RunEvaluationAsync(_arguments.PredictionDataFileName);
 
                 if (metrics.IsNullOrError)
                 {
@@ -106,9 +106,16 @@ namespace deepamour.cli
             }
             else
             {
-                var result = await predictor.PredictAsync(_arguments.PredictionDataFileName);
+                var result = await predictor.RunPredictorAsync(_arguments.PredictionDataFileName, _arguments.TrainingDataFileName);
 
-                Console.WriteLine(predictor.DisplayPrediction(result.Value));
+                if (result.IsNullOrError)
+                {
+                    Console.WriteLine("Failed to run model");
+
+                    return;
+                }
+
+                Console.WriteLine(result.Value);
             }
         }
     }

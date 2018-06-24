@@ -39,13 +39,13 @@ namespace deepamour.cli.Common
                 {
                     switch (args[x].ToLower())
                     {
-                        case "-p":
+                        case "-pd":
                             commandLine.PredictionDataFileName = args[x + 1];
                             break;
                         case "-pr":
                             commandLine.Predictor = args[x + 1];
                             break;
-                        case "-d":
+                        case "-td":
                             commandLine.TrainingDataFileName = args[x + 1];
                             break;
                         case "-e":
