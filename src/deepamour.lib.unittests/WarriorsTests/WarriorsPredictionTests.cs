@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,7 +14,7 @@ namespace deepamour.lib.unittests.WarriorsTests
 
             Assert.IsNotNull(predictor);
 
-            var model = predictor.Predict(null);
+            var model = predictor.PredictAsync(null).Result;
 
             Assert.IsNotNull(model);
             Assert.IsTrue(model.IsNullOrError);
@@ -44,10 +43,9 @@ namespace deepamour.lib.unittests.WarriorsTests
 
             Assert.IsNotNull(predictor);
 
-            var prediction = predictor.Predict($"{DateTime.Now.Ticks}.txt");
+            var prediction = predictor.PredictAsync($"{DateTime.Now.Ticks}.txt").Result;
 
             Assert.IsTrue(prediction.IsNullOrError);
-            Assert.IsTrue(prediction.Error.GetType() == typeof(FileNotFoundException));
         }
     }
 }

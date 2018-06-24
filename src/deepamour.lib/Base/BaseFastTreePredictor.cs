@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 
 using deepamour.lib.Common;
 
@@ -22,25 +24,34 @@ namespace deepamour.lib.Base
 
         public override string DisplayPrediction(TK prediction) => throw new System.NotImplementedException();
 
-        protected override async void LoadDataAsync()
+        protected override async Task<ReturnObj<bool>> LoadDataAsync()
         {
             if (File.Exists(ModelName))
             {
                 Model = await PredictionModel.ReadAsync<T, TK>(ModelName);
 
-                return;
+                return new ReturnObj<bool>(true);
             }
 
-            var pipeline = new LearningPipeline
+            try
             {
-                new TextLoader(TrainingFile).CreateFrom<T>(separator: ','),
-                new ColumnConcatenator("Features", "Features"),
-                new FastTreeRegressor()
-            };
+                var pipeline = new LearningPipeline
+                {
+                    new TextLoader(TrainingFile).CreateFrom<T>(separator: ','),
+                    new ColumnConcatenator("Features", "Features"),
+                    new FastTreeRegressor()
+                };
 
-            Model = pipeline.Train<T, TK>();
+                Model = pipeline.Train<T, TK>();
 
-            await Model.WriteAsync(ModelName);
+                await Model.WriteAsync(ModelName);
+            }
+            catch (Exception ex)
+            {
+                return new ReturnObj<bool>(ex);
+            }
+
+            return new ReturnObj<bool>(true);
         }
 
         public override ReturnObj<RegressionMetrics> EvaluateModel(string testDataFilePath)

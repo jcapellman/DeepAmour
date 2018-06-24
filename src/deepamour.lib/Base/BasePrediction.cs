@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 
 using deepamour.lib.Common;
 
@@ -27,7 +28,7 @@ namespace deepamour.lib.Base
         
         protected PredictionModel<T, TK> Model;
 
-        protected abstract void LoadDataAsync();
+        protected abstract Task<ReturnObj<bool>> LoadDataAsync();
 
         public ReturnObj<TK> Predict(string predictorDataFileName)
         {
