@@ -3,10 +3,14 @@ using System.Collections.Generic;
 
 using deepamour.lib.WarriorsPredictor;
 
+using NLog;
+
 namespace deepamour.cli
 {
     class Program
     {
+        private static Logger Log => NLog.LogManager.GetCurrentClassLogger();
+
         private class CommandLineArguments
         {
             public string TrainingDataFileName { get; set; }
@@ -49,33 +53,53 @@ namespace deepamour.cli
             Console.WriteLine("DeepAmour Command Line Arguments:");
             Console.WriteLine("-----------------------");
             Console.WriteLine("-p <filename> (Prediction Data File Name, required)");
-            Console.WriteLine("-pr <predictor name> (Predictor Name, optional)");
+            Console.WriteLine("-pr <predictor name> (Predictor Name, required)");
             Console.WriteLine("-d <filename> (Training Data, required if model doesn't exist)");
-            Console.WriteLine("-e (Evaluate the Model, Prediction Data is required");
+            Console.WriteLine("-e (Evaluate the Model, Prediction Data is required)");
 
             Console.WriteLine(System.Environment.NewLine);
+        }
+
+        private static WarriorsPrediction LoadPredictor(string predictor, string trainingDataFileName)
+        {
+            switch (predictor.ToLower())
+            {
+                case "warriors":
+                    return new WarriorsPrediction(trainingDataFileName);
+            }
+
+            return null;
         }
 
         static void Main(string[] args)
         {
             var commandLine = ParseArguments(args);
 
-            if (string.IsNullOrEmpty(commandLine.PredictionDataFileName))
+            if (string.IsNullOrEmpty(commandLine.PredictionDataFileName) || string.IsNullOrEmpty(commandLine.Predictor))
+            {
+                DisplayArgumentsHelp();
+
+                Log.Error($"Prediction Data and/or Predictor command line arguments are null");
+
+                return;
+            }
+
+            if (commandLine.Evaluate && string.IsNullOrEmpty(commandLine.PredictionDataFileName))
             {
                 DisplayArgumentsHelp();
 
                 return;
             }
 
-            if (commandLine.Evaluate && string.IsNullOrEmpty(commandLine.TrainingDataFileName))
+            var predictor = LoadPredictor(commandLine.Predictor, commandLine.TrainingDataFileName);
+
+            if (predictor == null)
             {
-                DisplayArgumentsHelp();
+                Console.WriteLine($"{commandLine.Predictor} predictor was not found in the Library");
 
                 return;
             }
-
-            var predictor = new WarriorsPrediction(commandLine.TrainingDataFileName);
-
+            
             if (commandLine.Evaluate)
             {
                 var metrics = predictor.EvaluateModel(commandLine.PredictionDataFileName);
