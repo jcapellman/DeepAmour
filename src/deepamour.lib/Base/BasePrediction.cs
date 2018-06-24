@@ -1,57 +1,27 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using deepamour.lib.Common;
+using deepamour.lib.Predictors.Base;
 
 using Microsoft.ML;
 using Microsoft.ML.Models;
 
 namespace deepamour.lib.Base
 {
-    public abstract class BasePrediction<T, TK> where T : class where TK : class, new()
+    public abstract class BasePrediction
     {
-        protected readonly string TrainingFile;
-
-        protected BasePrediction(string trainingFile)
-        {
-            TrainingFile = trainingFile;
-        }
-
-        public abstract string DisplayPrediction(TK prediction);
-
         protected abstract string ModelName { get; }
 
         public abstract string PredictorName { get; }
 
+        public abstract string PredictorPrettyName { get; }
+
         protected abstract string PredictorColumn { get; }
-        
-        protected PredictionModel<T, TK> Model;
 
-        protected abstract Task<ReturnObj<bool>> LoadDataAsync();
+        protected abstract Task<ReturnObj<PredictionModel<T, TK>>> LoadOrGenerateModelAsync<T, TK>(string trainingFileName) where T : BasePredictorData where TK : BaseDataPrediction, new();
 
-        public ReturnObj<TK> Predict(string predictorDataFileName)
-        {
-            if (Model == null)
-            {
-                LoadDataAsync();
-            }
+        protected abstract ReturnObj<RegressionMetrics> EvaluateModel<T, TK>(PredictionModel<T, TK> model, string testDataFilePath) where T : BasePredictorData where TK : BaseDataPrediction, new();
 
-            if (string.IsNullOrEmpty(predictorDataFileName))
-            {
-                return new ReturnObj<TK>(new Exception("predictorDataFileName is not set"));
-            }
-
-            if (!File.Exists(predictorDataFileName))
-            {
-                return new ReturnObj<TK>(new FileNotFoundException($"{predictorDataFileName} was not found to be used as prediction data"));
-            }
-
-            var data = File.ReadAllText(predictorDataFileName).DeserializeFromJson<T>();
-
-            return data.IsNullOrError ? new ReturnObj<TK>(data.Error) : new ReturnObj<TK>(Model.Predict(data.Value));
-        }
-
-        public abstract ReturnObj<RegressionMetrics> EvaluateModel(string testDataFilePat);
+        protected abstract ReturnObj<TK> Predict<T, TK>(PredictionModel<T, TK> model, string predictorDataFileName) where T : BasePredictorData where TK : BaseDataPrediction, new();
     }
 }

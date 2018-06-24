@@ -1,5 +1,7 @@
 ﻿using System;
 
+using deepamour.lib.Predictors.WarriorsPredictor;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace deepamour.lib.unittests.WarriorsTests
@@ -10,41 +12,33 @@ namespace deepamour.lib.unittests.WarriorsTests
         [TestMethod]
         public void InitAndPredict_Null()
         {
-            var predictor = new WarriorsPredictor.WarriorsPrediction(null);
+            var predictor = new WarriorsPredictor();
 
-            Assert.IsNotNull(predictor);
+            var prediction = predictor.RunPredictorAsync(null, null).Result;
 
-            var model = predictor.PredictAsync(null).Result;
-
-            Assert.IsNotNull(model);
-            Assert.IsTrue(model.IsNullOrError);
+            Assert.IsNotNull(prediction);
+            Assert.IsTrue(prediction.IsNullOrError);
         }
 
         [TestMethod]
-        public void Init_Null()
+        public void InitAndPredict_NotExistingPredicatorDataFile()
         {
-            var predictor = new WarriorsPredictor.WarriorsPrediction(null);
+            var predictor = new WarriorsPredictor();
 
-            Assert.IsNotNull(predictor);
+            var prediction = predictor.RunPredictorAsync($"{DateTime.Now.Ticks}.txt", null).Result;
+
+            Assert.IsNotNull(prediction);
+            Assert.IsTrue(prediction.IsNullOrError);
         }
 
         [TestMethod]
-        public void Init_EmptyString()
+        public void InitAndPredict_NotExistingPredicatorDataFileOrTrainingDataFile()
         {
-            var predictor = new WarriorsPredictor.WarriorsPrediction(string.Empty);
+            var predictor = new WarriorsPredictor();
 
-            Assert.IsNotNull(predictor);
-        }
+            var prediction = predictor.RunPredictorAsync($"{DateTime.Now.Ticks}.txt", $"{DateTime.Now.Ticks}.txt").Result;
 
-        [TestMethod]
-        public void InitAndPredict_NotExistingFile()
-        {
-            var predictor = new WarriorsPredictor.WarriorsPrediction($"{DateTime.Now.Ticks}.txt");
-
-            Assert.IsNotNull(predictor);
-
-            var prediction = predictor.PredictAsync($"{DateTime.Now.Ticks}.txt").Result;
-
+            Assert.IsNotNull(prediction);
             Assert.IsTrue(prediction.IsNullOrError);
         }
     }

@@ -1,8 +1,10 @@
-﻿using Microsoft.ML.Runtime.Api;
+﻿using deepamour.lib.Predictors.Base;
 
-namespace deepamour.lib.WarriorsPredictor.Objects
+using Microsoft.ML.Runtime.Api;
+
+namespace deepamour.lib.Predictors.WarriorsPredictor.Objects
 {
-    public class WarriorsData
+    public class WarriorsData : BasePredictorData
     {
         public float CurryPoints { get => Features[0]; set => Features[0] = value; }
 

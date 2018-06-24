@@ -12,55 +12,74 @@ using Microsoft.ML.Transforms;
 
 namespace deepamour.lib.Base
 {
-    public class BaseFastTreePredictor<T, TK> : BasePrediction<T, TK> where T : class where TK : class, new()
-    {
-        protected BaseFastTreePredictor(string trainingData) : base(trainingData) { }
+    public abstract class BaseFastTreePredictor : BasePrediction
+    {        
 
-        protected override string ModelName => throw new System.NotImplementedException();
+        public abstract Task<ReturnObj<RegressionMetrics>> RunEvaluationAsync(string testDataFilePath);
 
-        public override string PredictorName => throw new System.NotImplementedException();
+        public abstract Task<ReturnObj<string>> RunPredictorAsync(string predictorDataFileName, string testDataFilePath = null);
 
-        protected override string PredictorColumn => throw new System.NotImplementedException();
-
-        public override string DisplayPrediction(TK prediction) => throw new System.NotImplementedException();
-
-        protected override async Task<ReturnObj<bool>> LoadDataAsync()
+        protected override async Task<ReturnObj<PredictionModel<T, TK>>> LoadOrGenerateModelAsync<T, TK>(string trainingFileName)
         {
+            PredictionModel<T, TK> model;
+
             if (File.Exists(ModelName))
             {
-                Model = await PredictionModel.ReadAsync<T, TK>(ModelName);
+                model = await PredictionModel.ReadAsync<T, TK>(ModelName);
 
-                return new ReturnObj<bool>(true);
+                return new ReturnObj<PredictionModel<T, TK>>(model);
             }
 
             try
             {
                 var pipeline = new LearningPipeline
                 {
-                    new TextLoader(TrainingFile).CreateFrom<T>(separator: ','),
+                    new TextLoader(trainingFileName).CreateFrom<T>(separator: ','),
                     new ColumnConcatenator("Features", "Features"),
                     new FastTreeRegressor()
                 };
 
-                Model = pipeline.Train<T, TK>();
+                model = pipeline.Train<T, TK>();
 
-                await Model.WriteAsync(ModelName);
+                await model.WriteAsync(ModelName);
             }
             catch (Exception ex)
             {
-                return new ReturnObj<bool>(ex);
+                return new ReturnObj<PredictionModel<T, TK>>(ex);
             }
 
-            return new ReturnObj<bool>(true);
+            return new ReturnObj<PredictionModel<T, TK>>(model);
         }
 
-        public override ReturnObj<RegressionMetrics> EvaluateModel(string testDataFilePath)
+        protected override ReturnObj<RegressionMetrics> EvaluateModel<T, TK>(PredictionModel<T, TK> model, string testDataFilePath)
         {
             var evaluator = new RegressionEvaluator();
 
             var testData = new TextLoader(testDataFilePath).CreateFrom<T>();
 
-            return new ReturnObj<RegressionMetrics>(evaluator.Evaluate(Model, testData));
+            return new ReturnObj<RegressionMetrics>(evaluator.Evaluate(model, testData));
+        }
+
+        protected override ReturnObj<TK> Predict<T, TK>(PredictionModel<T, TK> model, string predictorDataFileName)
+        {
+            if (model == null)
+            {
+                return new ReturnObj<TK>(new ArgumentNullException(nameof(model)));
+            }
+
+            if (string.IsNullOrEmpty(predictorDataFileName))
+            {
+                return new ReturnObj<TK>(new Exception("predictorDataFileName is not set"));
+            }
+
+            if (!File.Exists(predictorDataFileName))
+            {
+                return new ReturnObj<TK>(new FileNotFoundException($"{predictorDataFileName} was not found to be used as prediction data"));
+            }
+
+            var data = File.ReadAllText(predictorDataFileName).DeserializeFromJson<T>();
+
+            return data.IsNullOrError ? new ReturnObj<TK>(data.Error) : new ReturnObj<TK>(model?.Predict(data.Value));
         }
     }
 }
