@@ -1,5 +1,7 @@
 ﻿using System;
 
+using deepamour.lib.Predictors.Base;
+
 using Newtonsoft.Json;
 
 namespace deepamour.lib.Common
@@ -20,6 +22,23 @@ namespace deepamour.lib.Common
             catch (Exception ex)
             {
                 return new ReturnObj<T>(ex);
+            }
+        }
+
+        public static ReturnObj<string> SerializeFromJson<T>(this BaseDataPrediction predictionObject)
+        {
+            if (predictionObject == null)
+            {
+                return new ReturnObj<string>(new ArgumentNullException(nameof(predictionObject)));
+            }
+
+            try
+            {
+                return new ReturnObj<string>(JsonConvert.SerializeObject(predictionObject));
+            }
+            catch (Exception ex)
+            {
+                return new ReturnObj<string>(ex);
             }
         }
     }
