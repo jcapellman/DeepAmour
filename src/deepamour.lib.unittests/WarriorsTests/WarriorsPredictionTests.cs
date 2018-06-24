@@ -6,7 +6,7 @@ namespace deepamour.lib.unittests.WarriorsTests
     public class WarriorsPredictionTests
     {
         [TestMethod]
-        public void Init_Null()
+        public void InitAndPredict_Null()
         {
             var prediction = new WarriorsPredictor.WarriorsPrediction(null);
 
@@ -15,6 +15,15 @@ namespace deepamour.lib.unittests.WarriorsTests
             var model = prediction.Predict(null);
 
             Assert.IsNotNull(model);
+            Assert.IsTrue(model.IsNullOrError);
+        }
+
+        [TestMethod]
+        public void Init_Null()
+        {
+            var prediction = new WarriorsPredictor.WarriorsPrediction(null);
+
+            Assert.IsNotNull(prediction);
         }
     }
 }
