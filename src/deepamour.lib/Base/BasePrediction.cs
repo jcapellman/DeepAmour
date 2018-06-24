@@ -6,8 +6,6 @@ using deepamour.lib.Common;
 using Microsoft.ML;
 using Microsoft.ML.Models;
 
-using Newtonsoft.Json;
-
 namespace deepamour.lib.Base
 {
     public abstract class BasePrediction<T, TK> where T : class where TK : class, new()
@@ -47,10 +45,10 @@ namespace deepamour.lib.Base
             {
                 return new ReturnObj<TK>(new FileNotFoundException($"{predictorDataFileName} was not found to be used as prediction data"));
             }
-            
-            var data = JsonConvert.DeserializeObject<T>(File.ReadAllText(predictorDataFileName));
 
-            return new ReturnObj<TK>(Model.Predict(data));
+            var data = File.ReadAllText(predictorDataFileName).DeserializeFromJson<T>();
+
+            return data.IsNullOrError ? new ReturnObj<TK>(data.Error) : new ReturnObj<TK>(Model.Predict(data.Value));
         }
 
         public abstract ReturnObj<RegressionMetrics> EvaluateModel(string testDataFilePat);
