@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\deepamour.lib\deepamour.lib.core.csproj" />
+    <ProjectReference Include="..\deepamour.lib.core\deepamour.lib.core.csproj" />
   </ItemGroup>
 
 </Project>

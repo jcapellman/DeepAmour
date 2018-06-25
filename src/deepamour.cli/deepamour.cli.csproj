@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\deepamour.lib.cli\deepamour.lib.cli.csproj" />
-    <ProjectReference Include="..\deepamour.lib\deepamour.lib.core.csproj" />
+    <ProjectReference Include="..\deepamour.lib.core\deepamour.lib.core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
