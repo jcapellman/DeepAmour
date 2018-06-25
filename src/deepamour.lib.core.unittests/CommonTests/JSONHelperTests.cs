@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Newtonsoft.Json;
 
-namespace deepamour.lib.unittests.CommonTests
+namespace deepamour.lib.core.unittests.CommonTests
 {
     [TestClass]
     public class JSONHelperTests

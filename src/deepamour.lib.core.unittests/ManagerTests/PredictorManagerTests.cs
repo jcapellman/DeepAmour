@@ -3,7 +3,7 @@ using deepamour.lib.core.Predictors.WarriorsPredictor;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace deepamour.lib.unittests.ManagerTests
+namespace deepamour.lib.core.unittests.ManagerTests
 {
     [TestClass]
     public class PredictorManagerTests
