@@ -19,27 +19,15 @@ namespace deepamour.lib.Common
             {
                 return new ReturnObj<T>(JsonConvert.DeserializeObject<T>(jsonString));
             }
-            catch (Exception ex)
+            catch (JsonReaderException ex)
             {
                 return new ReturnObj<T>(ex);
             }
         }
 
-        public static ReturnObj<string> SerializeFromJson<T>(this BaseDataPrediction predictionObject)
-        {
-            if (predictionObject == null)
-            {
-                return new ReturnObj<string>(new ArgumentNullException(nameof(predictionObject)));
-            }
-
-            try
-            {
-                return new ReturnObj<string>(JsonConvert.SerializeObject(predictionObject));
-            }
-            catch (Exception ex)
-            {
-                return new ReturnObj<string>(ex);
-            }
-        }
+        public static ReturnObj<string> SerializeFromJson<T>(this BaseDataPrediction predictionObject) => 
+            predictionObject == null ? 
+                new ReturnObj<string>(new ArgumentNullException(nameof(predictionObject))) : 
+                new ReturnObj<string>(JsonConvert.SerializeObject(predictionObject));
     }
 }
