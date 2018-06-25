@@ -1,5 +1,6 @@
-﻿using deepamour.lib.Managers;
-using deepamour.lib.Predictors.WarriorsPredictor;
+﻿using deepamour.lib.core.Managers;
+using deepamour.lib.core.Predictors.WarriorsPredictor;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace deepamour.lib.unittests.ManagerTests

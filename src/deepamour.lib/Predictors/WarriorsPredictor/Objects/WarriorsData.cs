@@ -1,8 +1,8 @@
-﻿using deepamour.lib.Predictors.Base;
+﻿using deepamour.lib.core.Predictors.Base;
 
 using Microsoft.ML.Runtime.Api;
 
-namespace deepamour.lib.Predictors.WarriorsPredictor.Objects
+namespace deepamour.lib.core.Predictors.WarriorsPredictor.Objects
 {
     public class WarriorsData : BasePredictorData
     {

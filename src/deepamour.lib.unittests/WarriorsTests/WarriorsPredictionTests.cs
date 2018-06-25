@@ -1,6 +1,6 @@
 ﻿using System;
 
-using deepamour.lib.Predictors.WarriorsPredictor;
+using deepamour.lib.core.Predictors.WarriorsPredictor;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

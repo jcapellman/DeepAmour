@@ -1,4 +1,4 @@
-﻿namespace deepamour.lib.Predictors.Base
+﻿namespace deepamour.lib.core.Predictors.Base
 {
     public class BasePredictorData
     {

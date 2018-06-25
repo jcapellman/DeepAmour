@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\deepamour.lib.cli\deepamour.lib.cli.csproj" />
-    <ProjectReference Include="..\deepamour.lib\deepamour.lib.csproj" />
+    <ProjectReference Include="..\deepamour.lib\deepamour.lib.core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

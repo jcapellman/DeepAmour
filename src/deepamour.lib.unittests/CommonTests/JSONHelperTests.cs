@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using deepamour.lib.Common;
-using deepamour.lib.Predictors.Base;
+using deepamour.lib.core.Common;
+using deepamour.lib.core.Predictors.Base;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

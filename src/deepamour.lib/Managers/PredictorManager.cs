@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using deepamour.lib.Base;
+using deepamour.lib.core.Base;
 
-namespace deepamour.lib.Managers
+namespace deepamour.lib.core.Managers
 {
     public static class PredictorManager
     {

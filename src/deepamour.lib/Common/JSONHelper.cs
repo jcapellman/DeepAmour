@@ -1,10 +1,10 @@
 ﻿using System;
 
-using deepamour.lib.Predictors.Base;
+using deepamour.lib.core.Predictors.Base;
 
 using Newtonsoft.Json;
 
-namespace deepamour.lib.Common
+namespace deepamour.lib.core.Common
 {
     public static class JSONHelper
     {

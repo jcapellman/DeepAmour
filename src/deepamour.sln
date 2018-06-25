@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "deepamour.web", "deepamour.web\deepamour.web.csproj", "{708E712F-3CC9-417F-BF33-2ADB0EF9E7CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "deepamour.lib", "deepamour.lib\deepamour.lib.csproj", "{03A929D2-0D7F-4A4C-AF28-852DE7EFEF45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "deepamour.lib.core", "deepamour.lib\deepamour.lib.core.csproj", "{03A929D2-0D7F-4A4C-AF28-852DE7EFEF45}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "deepamour.cli", "deepamour.cli\deepamour.cli.csproj", "{14968EE9-CD17-46CD-AD42-10D21CE54286}"
 EndProject

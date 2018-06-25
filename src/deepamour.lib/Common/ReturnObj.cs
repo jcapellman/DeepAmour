@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace deepamour.lib.Common
+namespace deepamour.lib.core.Common
 {
     public class ReturnObj<T>
     {

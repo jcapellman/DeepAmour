@@ -1,6 +1,6 @@
 ﻿using Microsoft.ML.Runtime.Api;
 
-namespace deepamour.lib.Predictors.Base
+namespace deepamour.lib.core.Predictors.Base
 {
     public class BaseDataPrediction
     {

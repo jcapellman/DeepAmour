@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 
-using deepamour.lib.Base;
-using deepamour.lib.Common;
-using deepamour.lib.Predictors.WarriorsPredictor.Objects;
+using deepamour.lib.core.Base;
+using deepamour.lib.core.Common;
+using deepamour.lib.core.Predictors.WarriorsPredictor.Objects;
 
 using Microsoft.ML;
 using Microsoft.ML.Models;
 
-namespace deepamour.lib.Predictors.WarriorsPredictor
+namespace deepamour.lib.core.Predictors.WarriorsPredictor
 {
     public class WarriorsPredictor : BaseFastTreePredictor
     {

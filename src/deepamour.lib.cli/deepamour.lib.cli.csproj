@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\deepamour.lib\deepamour.lib.csproj" />
+    <ProjectReference Include="..\deepamour.lib\deepamour.lib.core.csproj" />
   </ItemGroup>
 
 </Project>

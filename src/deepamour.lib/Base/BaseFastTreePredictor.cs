@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-using deepamour.lib.Common;
+using deepamour.lib.core.Common;
 
 using Microsoft.ML;
 using Microsoft.ML.Data;
@@ -10,7 +10,7 @@ using Microsoft.ML.Models;
 using Microsoft.ML.Trainers;
 using Microsoft.ML.Transforms;
 
-namespace deepamour.lib.Base
+namespace deepamour.lib.core.Base
 {
     public abstract class BaseFastTreePredictor : BasePrediction
     {        

@@ -2,7 +2,7 @@
 using System.Linq;
 
 using deepamour.lib.cli.Common;
-using deepamour.lib.Managers;
+using deepamour.lib.core.Managers;
 
 using NLog;
 

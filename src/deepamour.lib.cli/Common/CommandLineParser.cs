@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using deepamour.lib.Common;
+using deepamour.lib.core.Common;
 
 namespace deepamour.lib.cli.Common
 {

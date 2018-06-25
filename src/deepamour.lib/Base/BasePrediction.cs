@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 
-using deepamour.lib.Common;
-using deepamour.lib.Predictors.Base;
+using deepamour.lib.core.Common;
+using deepamour.lib.core.Predictors.Base;
 
 using Microsoft.ML;
 using Microsoft.ML.Models;
 
-namespace deepamour.lib.Base
+namespace deepamour.lib.core.Base
 {
     public abstract class BasePrediction
     {
