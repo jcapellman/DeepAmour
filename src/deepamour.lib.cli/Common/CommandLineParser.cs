@@ -4,7 +4,7 @@ using System.Linq;
 
 using deepamour.lib.Common;
 
-namespace deepamour.cli.Common
+namespace deepamour.lib.cli.Common
 {
     public static class CommandLineParser
     {

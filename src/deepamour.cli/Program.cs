@@ -1,4 +1,6 @@
-﻿namespace deepamour.cli
+﻿using deepamour.lib.cli;
+
+namespace deepamour.cli
 {
     class Program
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 
-using deepamour.cli.Common;
+using deepamour.lib.cli.Common;
 using deepamour.lib.Managers;
 
 using NLog;
 
-namespace deepamour.cli
+namespace deepamour.lib.cli
 {
     public class PredictionCLI
     {
