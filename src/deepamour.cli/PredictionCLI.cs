@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 
 using deepamour.cli.Common;
-using deepamour.lib.Base;
-using deepamour.lib.Common;
+using deepamour.lib.Managers;
 
 using NLog;
 
@@ -12,7 +10,7 @@ namespace deepamour.cli
 {
     public class PredictionCLI
     {
-        private static Logger Log => NLog.LogManager.GetCurrentClassLogger();
+        private static Logger Log => LogManager.GetCurrentClassLogger();
 
         private CommandLineParser.CommandLineArguments _arguments;
 
@@ -26,14 +24,6 @@ namespace deepamour.cli
             Console.WriteLine("-e (Evaluate the Model, Prediction Data is required)");
 
             Console.WriteLine(Environment.NewLine);
-        }
-
-        private static BaseFastTreePredictor LoadPredictor(string predictorName)
-        {
-            var predictors = Assembly.GetAssembly(typeof(JSONHelper)).GetTypes()
-                .Where(a => !a.IsAbstract && a.BaseType == typeof(BaseFastTreePredictor)).Select(a => (BaseFastTreePredictor)Activator.CreateInstance(a)).ToList();
-
-            return predictors.FirstOrDefault(a => string.Equals(a.PredictorName, predictorName, StringComparison.CurrentCultureIgnoreCase));
         }
 
         private bool ValidateCommandLine(CommandLineParser.CommandLineArguments arguments)
@@ -78,11 +68,27 @@ namespace deepamour.cli
 
         public async void RunPrediction()
         {
-            var predictor = LoadPredictor(_arguments.Predictor);
+            var predictor = PredictorManager.GetPredictor(_arguments.Predictor);
 
             if (predictor == null)
             {
                 Console.WriteLine($"{_arguments.Predictor} predictor was not found in the Library");
+
+                if (!PredictorManager.Predictors.Any())
+                {
+                    Console.WriteLine("No Predictors found");
+
+                    return;
+                }
+
+                Console.WriteLine(string.Empty);
+
+                Console.WriteLine("Available Predictors:");
+
+                foreach (var availablePredictor in PredictorManager.Predictors)
+                {
+                    Console.WriteLine($"{availablePredictor.PredictorName} ({availablePredictor.PredictorPrettyName})");
+                }
 
                 return;
             }
