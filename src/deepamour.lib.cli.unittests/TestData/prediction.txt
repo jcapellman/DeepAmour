@@ -1,0 +1,8 @@
+{
+"CurryPoints": 10,
+"DurantPoints": 15,
+"ThompsonPoints": 25,
+"GreenPoints": 50,
+"IguodalaPoints": 10,
+"WarriorsWin": 0
+}

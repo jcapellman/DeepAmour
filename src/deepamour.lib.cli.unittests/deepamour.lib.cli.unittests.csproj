@@ -17,4 +17,13 @@
     <ProjectReference Include="..\deepamour.lib.core\deepamour.lib.core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestData\prediction.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\warriors.mdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

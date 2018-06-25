@@ -2,6 +2,7 @@
 
 using deepamour.lib.cli.Common;
 using deepamour.lib.core.Predictors.WarriorsPredictor;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace deepamour.lib.cli.unittests
@@ -241,6 +242,67 @@ namespace deepamour.lib.cli.unittests
                 "-pr",
                 new WarriorsPredictor().PredictorName,
                 "-e"
+            };
+
+            predictionCLI.LoadArguments(args.ToArray());
+
+            predictionCLI.RunPrediction();
+        }
+
+        [TestMethod]
+        public void RunPrediction_InitWithActualModel_Predict()
+        {
+            var predictionCLI = new PredictionCLI();
+
+            Assert.IsNotNull(predictionCLI);
+
+            var args = new List<string>
+            {
+                "-pd",
+                "prediction.txt",
+                "-pr",
+                new WarriorsPredictor().PredictorName
+            };
+
+            predictionCLI.LoadArguments(args.ToArray());
+
+            predictionCLI.RunPrediction();
+        }
+
+        [TestMethod]
+        public void RunPrediction_InitWithActualModel_Evaluate()
+        {
+            var predictionCLI = new PredictionCLI();
+
+            Assert.IsNotNull(predictionCLI);
+
+            var args = new List<string>
+            {
+                "-pd",
+                "prediction.txt",
+                "-pr",
+                new WarriorsPredictor().PredictorName,
+                "-e"
+            };
+
+            predictionCLI.LoadArguments(args.ToArray());
+
+            predictionCLI.RunPrediction();
+        }
+
+        [TestMethod]
+        public void RunPrediction_InitWithInvalidPredictor()
+        {
+            var predictionCLI = new PredictionCLI();
+
+            Assert.IsNotNull(predictionCLI);
+
+            var args = new List<string>
+            {
+                "-pd",
+                "prediction.txt",
+                "-pr",
+                "wick"
             };
 
             predictionCLI.LoadArguments(args.ToArray());
