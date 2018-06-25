@@ -26,8 +26,13 @@ namespace deepamour.lib.cli
             Console.WriteLine(Environment.NewLine);
         }
 
-        private bool ValidateCommandLine(CommandLineParser.CommandLineArguments arguments)
+        internal bool ValidateCommandLine(CommandLineParser.CommandLineArguments arguments)
         {
+            if (arguments == null)
+            {
+                return false;
+            }
+
             if (string.IsNullOrEmpty(arguments.PredictionDataFileName) || string.IsNullOrEmpty(arguments.Predictor))
             {
                 DisplayArgumentsHelp();
