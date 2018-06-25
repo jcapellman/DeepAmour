@@ -10,6 +10,30 @@ namespace deepamour.lib.unittests.WarriorsTests
     public class WarriorsPredictionTests
     {
         [TestMethod]
+        public void AbstractCheck_PredictorName()
+        {
+            var predictor = new WarriorsPredictor();
+
+            Assert.IsNotNull(predictor.PredictorName);
+        }
+
+        [TestMethod]
+        public void AbstractCheck_PredictorPrettyName()
+        {
+            var predictor = new WarriorsPredictor();
+
+            Assert.IsNotNull(predictor.PredictorPrettyName);
+        }
+
+        [TestMethod]
+        public void AbstractCheck_PredictorColumn()
+        {
+            var predictor = new WarriorsPredictor();
+
+            Assert.IsNotNull(predictor.PredictorColumn);
+        }
+
+        [TestMethod]
         public void InitAndPredict_Null()
         {
             var predictor = new WarriorsPredictor();
