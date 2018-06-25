@@ -16,7 +16,7 @@ namespace deepamour.lib.Base
 
         public abstract string PredictorPrettyName { get; }
 
-        protected abstract string PredictorColumn { get; }
+        protected internal abstract string PredictorColumn { get; }
 
         protected abstract Task<ReturnObj<PredictionModel<T, TK>>> LoadOrGenerateModelAsync<T, TK>(string trainingFileName) where T : BasePredictorData where TK : BaseDataPrediction, new();
 

@@ -19,7 +19,7 @@ namespace deepamour.lib.Predictors.WarriorsPredictor
 
         public override string PredictorPrettyName => "Warriors Predictor";
 
-        protected override string PredictorColumn => "WarriorsWin";
+        protected internal override string PredictorColumn => "WarriorsWin";
 
         public override async Task<ReturnObj<RegressionMetrics>> RunEvaluationAsync(string testDataFilePath)
         {
