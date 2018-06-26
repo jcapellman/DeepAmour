@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using deepamour.lib.cli.Common;
 using deepamour.lib.core.Managers;
@@ -78,14 +77,7 @@ namespace deepamour.lib.cli
             if (predictor == null)
             {
                 Console.WriteLine($"{_arguments.Predictor} predictor was not found in the Library");
-
-                if (!PredictorManager.Predictors.Any())
-                {
-                    Console.WriteLine("No Predictors found");
-
-                    return;
-                }
-
+                
                 Console.WriteLine(string.Empty);
 
                 Console.WriteLine("Available Predictors:");

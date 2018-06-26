@@ -18,10 +18,10 @@ namespace deepamour.lib.core.Base
 
         protected internal abstract string PredictorColumn { get; }
 
-        protected abstract Task<ReturnObj<PredictionModel<T, TK>>> LoadOrGenerateModelAsync<T, TK>(string trainingFileName) where T : BasePredictorData where TK : BaseDataPrediction, new();
+        internal abstract Task<ReturnObj<PredictionModel<T, TK>>> LoadOrGenerateModelAsync<T, TK>(string trainingFileName) where T : BasePredictorData where TK : BaseDataPrediction, new();
 
-        protected abstract ReturnObj<RegressionMetrics> EvaluateModel<T, TK>(PredictionModel<T, TK> model, string testDataFilePath) where T : BasePredictorData where TK : BaseDataPrediction, new();
+        internal abstract ReturnObj<RegressionMetrics> EvaluateModel<T, TK>(PredictionModel<T, TK> model, string testDataFilePath) where T : BasePredictorData where TK : BaseDataPrediction, new();
 
-        protected abstract ReturnObj<TK> Predict<T, TK>(PredictionModel<T, TK> model, string predictorDataFileName) where T : BasePredictorData where TK : BaseDataPrediction, new();
+        internal abstract ReturnObj<TK> Predict<T, TK>(PredictionModel<T, TK> model, string predictorDataFileName) where T : BasePredictorData where TK : BaseDataPrediction, new();
     }
 }

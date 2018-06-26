@@ -19,7 +19,7 @@ namespace deepamour.lib.core.Base
 
         public abstract Task<ReturnObj<string>> RunPredictorAsync(string predictorDataFileName, string testDataFilePath = null);
 
-        protected override async Task<ReturnObj<PredictionModel<T, TK>>> LoadOrGenerateModelAsync<T, TK>(string trainingFileName)
+        internal override async Task<ReturnObj<PredictionModel<T, TK>>> LoadOrGenerateModelAsync<T, TK>(string trainingFileName)
         {
             PredictionModel<T, TK> model;
 
@@ -51,7 +51,7 @@ namespace deepamour.lib.core.Base
             return new ReturnObj<PredictionModel<T, TK>>(model);
         }
 
-        protected override ReturnObj<RegressionMetrics> EvaluateModel<T, TK>(PredictionModel<T, TK> model, string testDataFilePath)
+        internal override ReturnObj<RegressionMetrics> EvaluateModel<T, TK>(PredictionModel<T, TK> model, string testDataFilePath)
         {
             var evaluator = new RegressionEvaluator();
 
@@ -60,7 +60,7 @@ namespace deepamour.lib.core.Base
             return new ReturnObj<RegressionMetrics>(evaluator.Evaluate(model, testData));
         }
 
-        protected override ReturnObj<TK> Predict<T, TK>(PredictionModel<T, TK> model, string predictorDataFileName)
+        internal override ReturnObj<TK> Predict<T, TK>(PredictionModel<T, TK> model, string predictorDataFileName)
         {
             if (model == null)
             {
@@ -69,7 +69,7 @@ namespace deepamour.lib.core.Base
 
             if (string.IsNullOrEmpty(predictorDataFileName))
             {
-                return new ReturnObj<TK>(new Exception("predictorDataFileName is not set"));
+                return new ReturnObj<TK>(new ArgumentNullException(nameof(predictorDataFileName)));
             }
 
             if (!File.Exists(predictorDataFileName))
