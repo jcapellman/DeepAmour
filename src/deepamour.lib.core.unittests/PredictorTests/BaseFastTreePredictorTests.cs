@@ -67,7 +67,16 @@ namespace deepamour.lib.core.unittests.PredictorTests
             public override async Task<ReturnObj<string>> RunPredictorAsync(string predictorDataFileName,
                 string testDataFilePath = null)
             {
-                var prediction = Predict<BasePredictorData, BaseDataPrediction>(null, null);
+                PredictionModel<BasePredictorData, BaseDataPrediction> model = null;
+
+                if (!ForceModelUnload)
+                {
+                    var result = await LoadOrGenerateModelAsync<BasePredictorData, BaseDataPrediction>(testDataFilePath);
+
+                    model = result.Value;
+                }
+
+                var prediction = Predict(model, null);
                 
                 var serialized = prediction.Value.SerializeFromJson<BaseDataPrediction>();
 
@@ -120,7 +129,9 @@ namespace deepamour.lib.core.unittests.PredictorTests
             predictor.ForceModelUnload = false;
             try
             {
-                predictor.RunEvaluationAsync("prediction.txt").Result;
+                var evalResult = predictor.RunEvaluationAsync("prediction.txt").Result;
+
+                Assert.IsNull(evalResult);
             }
             catch (Exception ex)
             {
