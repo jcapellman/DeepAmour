@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "deepamour.lib.core.unittest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "deepamour.lib.cli", "deepamour.lib.cli\deepamour.lib.cli.csproj", "{58194D6D-0284-4E7E-96E9-C23B4DB6A70D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "deepamour.lib.cli.unittests", "deepamour.lib.cli.unittests\deepamour.lib.cli.unittests.csproj", "{FFC7CAFE-B22C-461A-BA99-9DBE5208C75D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "deepamour.lib.cli.unittests", "deepamour.lib.cli.unittests\deepamour.lib.cli.unittests.csproj", "{FFC7CAFE-B22C-461A-BA99-9DBE5208C75D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepAmour.cli.unittests", "DeepAmour.cli.unittests\DeepAmour.cli.unittests.csproj", "{67998CB9-B08E-44B5-87FC-0C601818CB94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{FFC7CAFE-B22C-461A-BA99-9DBE5208C75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFC7CAFE-B22C-461A-BA99-9DBE5208C75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFC7CAFE-B22C-461A-BA99-9DBE5208C75D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67998CB9-B08E-44B5-87FC-0C601818CB94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67998CB9-B08E-44B5-87FC-0C601818CB94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67998CB9-B08E-44B5-87FC-0C601818CB94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67998CB9-B08E-44B5-87FC-0C601818CB94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
