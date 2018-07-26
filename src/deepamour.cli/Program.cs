@@ -2,9 +2,9 @@
 
 namespace deepamour.cli
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        internal static void Run(string[] args)
         {
             var predictionCli = new PredictionCLI();
 
@@ -14,6 +14,11 @@ namespace deepamour.cli
             }
 
             predictionCli.RunPrediction();
+        }
+
+        static void Main(string[] args)
+        {
+            Run(args);
         }
     }
 }
